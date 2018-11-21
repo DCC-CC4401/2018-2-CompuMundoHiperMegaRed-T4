@@ -1,19 +1,5 @@
 from django.db import models
-
-
-# Create your models here.
-
-
-class Usuario(models.Model):
-    rut = models.CharField(max_length=10, primary_key=True)
-    password = models.CharField(max_length=50)
-    isAdminChoices = (('yes', 'yes'), ('no', 'no'),)
-    isAdmin = models.CharField(max_length=3, choices=isAdminChoices, default='no')
-
-
-class PersonaNatural(Usuario):
-    nombre = models.CharField(max_length=100)
-    mail = models.EmailField(max_length=100)
+from django.contrib.auth.models import User
 
 
 class Curso(models.Model):
@@ -29,17 +15,17 @@ class Curso(models.Model):
 
 
 class ParticipacionEnCurso(models.Model):
-    persona = models.ForeignKey(PersonaNatural, on_delete=models.CASCADE)
+    persona = models.ForeignKey(User, on_delete=models.CASCADE)
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
     rolChoices = (("profesor", "profesor"), ("auxiliar", "auxiliar"), ("ayudante", "ayudante"), ("alumno", "alumno"))
-    rol= models.CharField(max_length=10, choices=rolChoices, default="alumno")
+    rol = models.CharField(max_length=10, choices=rolChoices, default="alumno")
 
     class Meta:
         unique_together = ["persona", "curso"]
 
 
 class Grupo(models.Model):
-    integrante = models.ForeignKey(PersonaNatural, on_delete=models.CASCADE)
+    integrante = models.ForeignKey(User, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=100)
 
 
@@ -52,7 +38,7 @@ class Coevaluacion(models.Model):
     nombre = models.CharField(max_length=100)
     fecha_inicio = models.DateField()
     fecha_termino = models.DateField()
-    estadoChoices = (('abierta', 'abierta'), ('cerrada', 'cerrada'),)
+    estadoChoices = (('abierta', 'abierta'), ('cerrada', 'cerrada'), ('publicada', 'publicada'),)
     estado = models.CharField(max_length=9, choices=estadoChoices, default="cerrada")
 
 

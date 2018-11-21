@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-    <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" href="css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="css/coeval.css"/>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-        <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/coeval.js"></script>
-        <title>Sistema de Coevaluaciones DCC</title>
-    </head>
-    <body>
-        <!-- Barra superior -->
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Sistema de Coevaluaciones DCC
+{% endblock %}
+{%  block topbar %}
+     <!-- Barra superior -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-5 py-3">
             <a class="navbar-brand" href="#">Sistema de Coevaluaciones DCC</a>
             <!-- Al achicar la pantalla, el menú se oculta y se vuelve desplegable mediante este botón. -->
@@ -36,9 +29,11 @@
             </div>
         </nav>
         <!-- FIN Barra superior -->
+{% endblock %}
 
-        <!-- Cuerpo -->
-        <div class="container mt-4"> <!-- Contenedor responsivo, se adapta a la pantalla con puntos de quiebre. -->
+
+{% block content %}
+    <div class="container mt-4"> <!-- Contenedor responsivo, se adapta a la pantalla con puntos de quiebre. -->
 
             <!-- Tablas de resumen -->
             <div class="row">
@@ -89,7 +84,7 @@
                                     <td>Pendiente</td>
                                     <!-- Ícono de acción (responder) -->
                                     <td class="td-icon">
-                                        <a href="#" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="icon/answer-icon.png" alt="Responder coevaluación" width="28" height="28"></a>
+                                        <a href="fichaCoevaluacion" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="{% static 'icon/answer-icon.png' %}" alt="Responder coevaluación" width="28" height="28"></a>
                                     </td>
                                 </tr>
                                 <tr class="tr-pendiente">
@@ -111,7 +106,7 @@
                                     </td>
                                     <td>Pendiente</td>
                                     <td class="td-icon">
-                                        <a href="#" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="icon/answer-icon.png" alt="Responder coevaluación" width="28" height="28"></a>
+                                        <a href="#" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="{% static 'icon/answer-icon.png' %}" alt="Responder coevaluación" width="28" height="28"></a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -263,7 +258,4 @@
             </div>
 
         </div>
-            
-    </body>
-    </html>
-        
+{% endblock %}
