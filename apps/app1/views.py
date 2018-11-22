@@ -1,8 +1,13 @@
+from itertools import chain
 from typing import Any, Union
 from django.shortcuts import render
+from django.template.smartif import key
+
 from apps.app1.forms import *
 from apps.app1.models import *
 from django.contrib.auth import authenticate
+
+
 # Create your views here.
 
 
@@ -28,18 +33,32 @@ def login(request):
 
 
 def home_alumno(request):
-    codigos = {}
-    seccion = {}
-    año = {}
-    semestre = {}
+    # obtener rut desde sesión:
     rut = request.session['usuario']
-    cursos = ParticipacionEnCurso.objects.filter(persona__username=rut)
+    contexto = {}
+    # nombre del usuario:
+    user = User.objects.filter(username=rut)
+    nombre = user[0].first_name
+    apellido = user[0].last_name
+    contexto.update({'nombre': nombre + ' ' + apellido})
+    # tabla de cursos:
+    cursosTemp = []  # lista de cursos que se pasará al template
+    cursos = ParticipacionEnCurso.objects.filter(persona__username=rut)  # obtengo cursos del alumno
     for curso in cursos:
-        infocursos = Curso.objects.filter(curso=curso['curso'])
-        codigos.update({})
-
-
-    return render(request, 'home-vista-alumno.html')
+        idCurso = curso.id
+        infocursos = Curso.objects.get(id=idCurso)
+        cursosTemp.append(infocursos)
+    contexto.update({'cursos': cursosTemp})
+    # tabla de coevaluaciones:
+    coevTemp = []  # lista de coevaluaciones que se pasará al template
+    coevs = Coevaluacion.objects.none()
+    for curso in cursos:
+        idCurso = curso.id
+        coevs = coevs | Coevaluacion.objects.filter(curso=idCurso)
+    for coev in coevs:
+        coevTemp.append(coev)
+    contexto.update({'coevs': coevTemp})
+    return render(request, 'home-vista-alumno.html', contexto)
 
 
 def perfil_alumno_vista_docente(request):
@@ -56,4 +75,3 @@ def home_profesor(request):
 
 def ficha_coevaluacion_alumno(request):
     return render(request, 'coevaluacion-vista-alumno.html')
-
