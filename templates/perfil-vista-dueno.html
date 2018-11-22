@@ -68,39 +68,20 @@
                             </thead>
                             <!-- Cuerpo de tabla (Table Data) -->
                             <tbody>
+                                {% for curso in cursos %}
                                 <tr id="row-btn" onclick="showNotas()">
                                     <td class="td-curso-full">
                                         <div class="cargos cargos-alumno tooltip-custom">
                                             <span class="tooltiptext"></span>
                                         </div>
-                                        <span class="curso-nombre">Proyecto de Software (clickeable)</span>
+                                        <span class="curso-nombre">{{ curso.nombre }}</span>
                                         <br>
-                                        <span class="curso-codigo">CC5402-1</span>
+                                        <span class="curso-codigo">{{ curso.codigo }}</span>
                                     </td>
-                                    <td>2018-2</td>
+                                    <td>{{ curso.año }}-{{ curso.seccion }}</td>
+                                {% endfor %}
                                 </tr>
-                                <tr>
-                                    <td class="td-curso-full">
-                                        <div class="cargos cargos-alumno tooltip-custom">
-                                            <span class="tooltiptext"></span>
-                                        </div>
-                                        <span class="curso-nombre">Ingeniería de Software II</span>
-                                        <br>
-                                        <span class="curso-codigo">CC5401-1</span>
-                                    </td>
-                                    <td>2018-1</td>
-                                </tr>
-                                <tr>
-                                    <td class="td-curso-full">
-                                        <div class="cargos cargos-alumno tooltip-custom">
-                                            <span class="tooltiptext"></span>
-                                        </div>
-                                        <span class="curso-nombre">Ingeniería de Software I</span>
-                                        <br>
-                                        <span class="curso-codigo">CC4401-1</span>
-                                    </td>
-                                    <td>2017-2</td>
-                                </tr>
+
                             </tbody>
                         </table>
                     </div>

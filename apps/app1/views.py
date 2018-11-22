@@ -67,17 +67,18 @@ def perfil_alumno_vista_docente(request):
 
 
 def perfil_propio(request):
-    codigos = {}
 
     rut = request.session['usuario']
     usuario = User.objects.get(username=rut)
 
+    cursosTemp = []
     cursos = ParticipacionEnCurso.objects.filter(persona__username=rut)
     for curso in cursos:
-        infocursos = Curso.objects.filter(curso=curso['curso'])
-        codigos.update({})
+        idCurso = curso.id
+        infocursos = Curso.objects.get(id=idCurso)
+        cursosTemp.append(infocursos)
 
-    return render(request, 'perfil-vista-dueno.html', {'usuario': usuario})
+    return render(request, 'perfil-vista-dueno.html', {'usuario': usuario , 'cursos': cursosTemp})
 
 
 def home_profesor(request):
