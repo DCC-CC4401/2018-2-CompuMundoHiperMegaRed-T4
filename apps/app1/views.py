@@ -43,7 +43,7 @@ def home_alumno(request):
     contexto.update({'nombre': nombre + ' ' + apellido})
     # tabla de cursos:
     cursosTemp = []  # lista de cursos que se pasará al template
-    cursos = ParticipacionEnCurso.objects.filter(persona__username=rut)  # obtengo cursos del alumno
+    cursos = ParticipacionEnCurso.objects.filter(persona__username=rut).order_by('-curso__año', '-curso__semestre')  # obtengo cursos del alumno
     for curso in cursos:
         idCurso = curso.id
         infocursos = Curso.objects.get(id=idCurso)
@@ -55,6 +55,7 @@ def home_alumno(request):
     for curso in cursos:
         idCurso = curso.id
         coevs = coevs | Coevaluacion.objects.filter(curso=idCurso)
+    coevs.order_by('-fecha_inicio')
     for coev in coevs:
         coevTemp.append(coev)
     contexto.update({'coevs': coevTemp})
