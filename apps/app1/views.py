@@ -33,7 +33,7 @@ def login(request):
 
 
 def home_alumno(request):
-    # obtener rut desde sesión:
+    # obtener rut desde sesion:
     rut = request.session['usuario']
     contexto = {}
     # nombre del usuario:
@@ -42,7 +42,7 @@ def home_alumno(request):
     apellido = user[0].last_name
     contexto.update({'nombre': nombre + ' ' + apellido})
     # tabla de cursos:
-    cursosTemp = []  # lista de cursos que se pasará al template
+    cursosTemp = []  # lista de cursos que se pasara al template
     cursos = ParticipacionEnCurso.objects.filter(persona__username=rut).order_by('-curso__año', '-curso__semestre')  # obtengo cursos del alumno
     for curso in cursos:
         idCurso = curso.id
@@ -50,7 +50,7 @@ def home_alumno(request):
         cursosTemp.append(infocursos)
     contexto.update({'cursos': cursosTemp})
     # tabla de coevaluaciones:
-    coevTemp = []  # lista de coevaluaciones que se pasará al template
+    coevTemp = []  # lista de coevaluaciones que se pasara al template
     coevs = Coevaluacion.objects.none()
     for curso in cursos:
         idCurso = curso.id

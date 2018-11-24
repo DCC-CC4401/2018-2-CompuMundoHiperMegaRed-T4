@@ -14,6 +14,13 @@ class Curso(models.Model):
     class Meta:
         unique_together = ["codigo", "seccion", "año", "semestre"]
 
+    def complete(self):
+        complete_name = "{0}-{1}"
+        return complete_name.format(self.nombre, self.seccion)
+
+    def __str__(self):
+        return self.complete()
+
 
 class ParticipacionEnCurso(models.Model):
     persona = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -24,10 +31,24 @@ class ParticipacionEnCurso(models.Model):
     class Meta:
         unique_together = ["persona", "curso"]
 
+    def complete(self):
+        complete_name = "{0} --> {1}"
+        return complete_name.format(self.persona, self.curso)
+
+    def __str__(self):
+        return self.complete()
+
 
 class Grupo(models.Model):
     integrante = models.ForeignKey(User, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=100)
+
+    def complete(self):
+        complete_name = "{0}"
+        return complete_name.format(self.nombre)
+
+    def __str__(self):
+        return self.complete()
 
 
 class RelCursoGrupo(models.Model):
@@ -36,6 +57,13 @@ class RelCursoGrupo(models.Model):
 
     class Meta:
         unique_together = ["grupo", "curso"]
+
+    def complete(self):
+        complete_name = "{0} --> {1}"
+        return complete_name.format(self.grupo, self.curso)
+
+    def __str__(self):
+        return self.complete()
 
 
 class Coevaluacion(models.Model):
@@ -46,7 +74,15 @@ class Coevaluacion(models.Model):
     estadoChoices = (('Abierta', 'abierta'), ('Cerrada', 'cerrada'), ('Publicada', 'publicada'),)
     estado = models.CharField(max_length=9, choices=estadoChoices, default="cerrada")
 
+    def complete(self):
+        complete_name = "{0} ({1})"
+        return complete_name.format(self.nombre, self.curso)
+
+    def __str__(self):
+        return self.complete()
+
 
 class Pregunta(models.Model):
     contenido = models.TextField(max_length=300)
     ponderacion = models.FloatField()
+
