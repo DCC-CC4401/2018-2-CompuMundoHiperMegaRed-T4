@@ -47,11 +47,15 @@ def logout(request):
 
 
 def home_alumno(request):
+<<<<<<< HEAD
     # copiar siguientes 3 lineas en las otras vistas:
     global log
     if not log:
         return redirect('/')
     # obtener rut desde sesión:
+=======
+    # obtener rut desde sesion:
+>>>>>>> c99caa7cc91e3e511eb87c9c9e07a2729d385db8
     rut = request.session['usuario']
     contexto = {}
     # nombre del usuario:
@@ -60,7 +64,7 @@ def home_alumno(request):
     apellido = user[0].last_name
     contexto.update({'nombre': nombre + ' ' + apellido})
     # tabla de cursos:
-    cursosTemp = []  # lista de cursos que se pasará al template
+    cursosTemp = []  # lista de cursos que se pasara al template
     cursos = ParticipacionEnCurso.objects.filter(persona__username=rut).order_by('-curso__año', '-curso__semestre')  # obtengo cursos del alumno
     for curso in cursos:
         idCurso = curso.id
@@ -68,7 +72,7 @@ def home_alumno(request):
         cursosTemp.append(infocursos)
     contexto.update({'cursos': cursosTemp})
     # tabla de coevaluaciones:
-    coevTemp = []  # lista de coevaluaciones que se pasará al template
+    coevTemp = []  # lista de coevaluaciones que se pasara al template
     coevs = Coevaluacion.objects.none()
     for curso in cursos:
         idCurso = curso.id
