@@ -1,6 +1,7 @@
 from itertools import chain
 from typing import Any, Union
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.template.backends import django
 from django.template.smartif import key
 
 from apps.app1.forms import *
@@ -10,8 +11,11 @@ from django.contrib.auth import authenticate
 
 # Create your views here.
 
+log = False
+
 
 def login(request):
+    global log
     context = {'form': Login(), 'bad': False}
     if request.method == 'POST':
         form = Login(request.POST)
@@ -21,7 +25,8 @@ def login(request):
             registrado = authenticate(username=user, password=clave)
             if registrado:
                 request.session['usuario'] = user
-                return home_alumno(request)
+                log = True
+                return redirect('/home')
             else:
                 context.update({'bad': True})
             return render(request, 'login.html', context)
@@ -29,11 +34,28 @@ def login(request):
             context.update({'bad': True})
             return render(request, 'login.html', context)
     else:
-        return render(request, 'login.html', context)
+        if log:
+            return redirect('/home')
+        else:
+            return render(request, 'login.html', context)
+
+
+def logout(request):
+    global log
+    log = False
+    return login(request)
 
 
 def home_alumno(request):
+<<<<<<< HEAD
+    # copiar siguientes 3 lineas en las otras vistas:
+    global log
+    if not log:
+        return redirect('/')
     # obtener rut desde sesión:
+=======
+    # obtener rut desde sesion:
+>>>>>>> c99caa7cc91e3e511eb87c9c9e07a2729d385db8
     rut = request.session['usuario']
     contexto = {}
     # nombre del usuario:
@@ -42,7 +64,7 @@ def home_alumno(request):
     apellido = user[0].last_name
     contexto.update({'nombre': nombre + ' ' + apellido})
     # tabla de cursos:
-    cursosTemp = []  # lista de cursos que se pasará al template
+    cursosTemp = []  # lista de cursos que se pasara al template
     cursos = ParticipacionEnCurso.objects.filter(persona__username=rut).order_by('-curso__año', '-curso__semestre')  # obtengo cursos del alumno
     for curso in cursos:
         idCurso = curso.id
@@ -50,7 +72,7 @@ def home_alumno(request):
         cursosTemp.append(infocursos)
     contexto.update({'cursos': cursosTemp})
     # tabla de coevaluaciones:
-    coevTemp = []  # lista de coevaluaciones que se pasará al template
+    coevTemp = []  # lista de coevaluaciones que se pasara al template
     coevs = Coevaluacion.objects.none()
     for curso in cursos:
         idCurso = curso.id
@@ -95,3 +117,7 @@ def home_profesor(request):
 
 def ficha_coevaluacion_alumno(request):
     return render(request, 'coevaluacion-vista-alumno.html')
+
+
+def ficha_curso_docente(request):
+    return render(request, 'curso-vista-docente.html')
