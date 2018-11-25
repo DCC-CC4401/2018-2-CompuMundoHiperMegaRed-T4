@@ -114,10 +114,12 @@
                     </div>
                     <div id="notas-resumen">
                         <h4 class="d-inline-block mt-1">Tus Notas</h4>
-                        <h5 class="float-right mb-0 mt-2 text-muted" id="currentCurso">CC5402-1, 2018-2</h5>
 
                         <div class="table-wrap table-responsive my-1"> <!-- "Envoltura" de la tabla -->
-                            <table class="table table-notas-perfil table-striped table-hover mb-0"> <!-- Tabla -->
+                        {% for curso in cursos %}
+                            <table class="table table-notas-perfil table-striped table-hover mt-1"> <!-- Tabla -->
+                                <h7 class="float-left mb-0 mt-2 text-muted" id="currentCurso">{{ curso.codigo }}-{{ curso.seccion }} {{ curso.nombre }} </h7>
+
                                 <!-- Encabezados de tabla (Table Headers) -->
                                 <thead class="thead-light">
                                     <tr> <!-- Fila (Table Row) -->
@@ -129,31 +131,29 @@
 
                                 <!-- Cuerpo de tabla (Table Data) -->
                                 <tbody>
-                                    <tr>
-                                        <!-- Fecha de publicación -->
-                                        <td class="td-fecha">23:59 22/11/17</td>
-                                        <!-- Título de coevaluación -->
-                                        <td>Tarea 4</td>
-                                        <!-- Nota -->
-                                        <td class="td-nota">6.2</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-fecha">23:59 13/10/17</td>
-                                        <td>Tarea 3</td>
-                                        <td class="td-nota td-nota-roja">3.8</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-fecha">23:59 17/09/17</td>
-                                        <td>Tarea 2</td>
-                                        <td class="td-nota">5.7</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-fecha">12:15 20/08/17</td>
-                                        <td>Tarea 1</td>
-                                        <td class="td-nota">6.5</td>
-                                    </tr>
+
+                                    {% for coeval in coevaluaciones %}
+                                        {% if coeval.curso == curso %}
+                                            <tr>
+                                                <!-- Fecha de publicación -->
+                                                <td class="td-fecha">{{ coeval.fecha_termino}}</td>
+                                                <!-- Título de coevaluación -->
+                                                <td> {{ coeval.nombre }}</td>
+                                                <!-- Nota -->
+
+                                                <td class="td-nota">
+                                                {% for nota in notas %}
+                                                    {% if nota.coevaluacion == coeval %}
+                                                        {{ nota.nota }}
+                                                    {% endif %}
+                                                {% endfor %}</td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+
                                 </tbody>
                             </table>
+                        {% endfor %}
                         </div>
                     </div>
                 </div>

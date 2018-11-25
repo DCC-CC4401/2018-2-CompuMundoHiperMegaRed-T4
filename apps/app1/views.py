@@ -67,10 +67,10 @@ def perfil_alumno_vista_docente(request):
 
 
 def perfil_propio(request):
-
     rut = request.session['usuario']
     usuario = User.objects.get(username=rut)
 
+    coevals = []
     cursosTemp = []
     cursos = ParticipacionEnCurso.objects.filter(persona__username=rut)
     for curso in cursos:
@@ -78,7 +78,15 @@ def perfil_propio(request):
         infocursos = Curso.objects.get(id=idCurso)
         cursosTemp.append(infocursos)
 
-    return render(request, 'perfil-vista-dueno.html', {'usuario': usuario , 'cursos': cursosTemp})
+        infocoev = Coevaluacion.objects.get(curso = infocursos)
+        coevals.append(infocoev)
+
+    notas = []
+    for coeval in coevals:
+        notaInfo = Notas.objects.get(coevaluacion= coeval)
+        notas.append(notaInfo)
+
+    return render(request, 'perfil-vista-dueno.html', {'usuario': usuario , 'cursos': cursosTemp, 'coevaluaciones': coevals, 'notas': notas})
 
 
 def home_profesor(request):
