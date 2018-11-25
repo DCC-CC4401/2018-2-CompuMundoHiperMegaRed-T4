@@ -47,15 +47,11 @@ def logout(request):
 
 
 def home_alumno(request):
-<<<<<<< HEAD
     # copiar siguientes 3 lineas en las otras vistas:
     global log
     if not log:
         return redirect('/')
     # obtener rut desde sesión:
-=======
-    # obtener rut desde sesion:
->>>>>>> c99caa7cc91e3e511eb87c9c9e07a2729d385db8
     rut = request.session['usuario']
     contexto = {}
     # nombre del usuario:
@@ -100,12 +96,12 @@ def perfil_propio(request):
         infocursos = Curso.objects.get(id=idCurso)
         cursosTemp.append(infocursos)
 
-        infocoev = Coevaluacion.objects.get(curso = infocursos)
+        infocoev = Coevaluacion.objects.filter(curso = infocursos)
         coevals.append(infocoev)
 
     notas = []
     for coeval in coevals:
-        notaInfo = Notas.objects.get(coevaluacion= coeval)
+        notaInfo = Notas.objects.filter(coevaluacion= coeval)
         notas.append(notaInfo)
 
     return render(request, 'perfil-vista-dueno.html', {'usuario': usuario , 'cursos': cursosTemp, 'coevaluaciones': coevals, 'notas': notas})
