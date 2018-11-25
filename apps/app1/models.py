@@ -41,26 +41,12 @@ class ParticipacionEnCurso(models.Model):
 
 class Grupo(models.Model):
     integrante = models.ForeignKey(User, on_delete=models.CASCADE)
+    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=100)
 
     def complete(self):
         complete_name = "{0}"
         return complete_name.format(self.nombre)
-
-    def __str__(self):
-        return self.complete()
-
-
-class RelCursoGrupo(models.Model):
-    grupo = models.ForeignKey(Grupo, on_delete=models.CASCADE)
-    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
-
-    class Meta:
-        unique_together = ["grupo", "curso"]
-
-    def complete(self):
-        complete_name = "{0} --> {1}"
-        return complete_name.format(self.grupo, self.curso)
 
     def __str__(self):
         return self.complete()
@@ -83,6 +69,6 @@ class Coevaluacion(models.Model):
 
 
 class Pregunta(models.Model):
+    coevaluacion = models.ForeignKey(Coevaluacion, on_delete=models.CASCADE)
     contenido = models.TextField(max_length=300)
     ponderacion = models.FloatField()
-
