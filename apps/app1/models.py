@@ -60,3 +60,6 @@ class Notas(models.Model):
     nota = models.FloatField()
     alumno = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ["coevaluacion", "alumno"]
+
