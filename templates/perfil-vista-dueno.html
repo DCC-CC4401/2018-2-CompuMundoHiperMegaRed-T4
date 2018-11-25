@@ -136,14 +136,18 @@
                                         {% if coeval.curso == curso %}
                                             <tr>
                                                 <!-- Fecha de publicación -->
-                                                <td class="td-fecha">{{ coeval.fecha_termino}}</td>
+                                                <td class="td-fecha">
+                                                    {% if coeval.estado == "Publicada" %}
+                                                        {{ coeval.fecha_termino}}
+                                                    {% endif%}
+                                                </td>
                                                 <!-- Título de coevaluación -->
                                                 <td> {{ coeval.nombre }}</td>
                                                 <!-- Nota -->
 
                                                 <td class="td-nota">
                                                 {% for nota in notas %}
-                                                    {% if nota.coevaluacion == coeval %}
+                                                    {% if nota.coevaluacion == coeval and coeval.estado == "Publicada"%}
                                                         {{ nota.nota }}
                                                     {% endif %}
                                                 {% endfor %}</td>
