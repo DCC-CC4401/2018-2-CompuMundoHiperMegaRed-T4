@@ -97,11 +97,12 @@ def perfil_propio(request):
         cursosTemp.append(infocursos)
 
         infocoev = Coevaluacion.objects.filter(curso = infocursos)
-        coevals.append(infocoev)
+        for c in infocoev:
+            coevals.append(c)
 
     notas = []
     for coeval in coevals:
-        notaInfo = Notas.objects.filter(coevaluacion= coeval)
+        notaInfo = Notas.objects.get(coevaluacion= coeval, alumno = usuario)
         notas.append(notaInfo)
 
     return render(request, 'perfil-vista-dueno.html', {'usuario': usuario , 'cursos': cursosTemp, 'coevaluaciones': coevals, 'notas': notas})
