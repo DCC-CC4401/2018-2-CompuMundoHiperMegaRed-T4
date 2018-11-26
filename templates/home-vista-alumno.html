@@ -123,6 +123,8 @@
 
                     <div class="table-wrap table-responsive my-1">
                         <table class="table table-cursos table-striped table-hover mb-0">
+                            <col width="100">
+                            <col width="60">
                             <!-- Encabezados de tabla (Table Headers) -->
                             <thead class="thead-light">
                                 <tr>
@@ -138,22 +140,21 @@
                                         <div class="cargos cargos-alumno tooltip-custom">
                                             <span  class="tooltiptext"></span>
                                         </div>
-                                        <a href="fichaCurso">ir</a>
                                         <span class="curso-nombre">{{ curso.nombre }}</span>
                                         <br>
                                         <span class="curso-codigo">{{ curso.codigo }}-{{ curso.seccion }}</span>
                                     </td>
-                                    <td >{{ curso.año }}-{{ curso.semestre }}</td>
-                                    <td class="td-icon">
+                                    <td>{{ curso.año }}-{{ curso.semestre }}</td>
+                                    <td>
                                         <form action="{% url 'ficha_curso' %}" method="post">
                                             {% csrf_token %}
                                                 <input type="hidden" name="curso_codigo" value="{{ curso.codigo }}">
                                                 <input type="hidden" name="curso_seccion" value="{{ curso.seccion }}">
                                                 <input type="hidden" name="curso_ano" value="{{ curso.año }}">
                                                 <input type="hidden" name="curso_semestre" value="{{ curso.semestre }}">
-                                            <button type="submit" class="btn btn-default" aria-label="Left Align" width="28" height="28">
-                                              <span class="glyphicon glyphicon-share-alt" aria-hidden="true" href="fichaCoevaluacion" ></span>
-                                            </button>
+
+                                                <input type="image" class="clickable-icon answer-icon" href="fichaCoevaluacion" src="{% static 'icon/arrow.png' %}"  width="20" height="20">
+
                                         </form>
                                     </td>
                                     </tr>
