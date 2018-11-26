@@ -19,7 +19,7 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="divider-vertical"></li>
                     <li class="nav-item">
-                        <a class="nav-link" href="perfil">Juanito Pérez</a>
+                        <a class="nav-link" href="perfil">{{ nombre }}</a>
                     </li>
                     <li class="divider-vertical"></li>
                     <li class="nav-item">
@@ -45,21 +45,24 @@
                 <div class="col-md-4 mb-3">
                     <h4 class="d-inline-block mt-1">Información</h4>
                     <h6 class="text-muted mt-3 mb-0 pb-1 border-bottom">Título</h6>
-                    <span>Tarea 1</span>
+
+                    <span>{{coev.nombre}}</span>
+
+
                     <h6 class="text-muted mt-3 mb-0 pb-1 border-bottom">Curso</h6>
-                    <span>CC4401 Ingeniería de Software I 2018, Primavera</span>
+                    <span>{{ curso.codigo }} {{ curso.nombre }} {{ curso.año }}-{{ curso.semestre }}</span>
                     <div class="row">
                         <div class="col-6">
                             <h6 class="text-muted mt-3 mb-0 pb-1 border-bottom">Fecha de inicio</h6>
-                            <span>03:53 20/10/18</span>
+                            <span>{{ coev.fecha_inicio }}</span>
                         </div>
                         <div class="col-6">
                             <h6 class="text-muted mt-3 mb-0 pb-1 border-bottom">Fecha límite</h6>
-                            <span>23:59 27/10/18</span>
+                            <span>{{ coev.fecha_termino }}</span>
                         </div>
                     </div>
                     <h6 class="text-muted mt-3 mb-0 pb-1 border-bottom">Estado</h6>
-                    <span>Abierta</span>
+                    <span>{{ coev.estado }}</span>
                 </div>
                 <!-- FIN Información -->
 
@@ -69,39 +72,46 @@
 
                     <div class="table-wrap table-responsive my-1">
                         <table class="table table-grupo-coeval table-striped table-hover mb-0">
+
+
                             <thead class="thead-light">
+
                                 <tr>
                                     <th class="th-nombre">Nombre</th>
                                     <th class="th-iconos"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Estudiante 1</td>
-                                    <td class="td-icon"></td>
+                            {% for estado in estados %}
+                                <tr class="tr">
+                                    <td>{{ estado.alumno_a_evaluar.first_name}} {{ estado.alumno_a_evaluar.last_name}} </td>
+                                        {% if estado.estado == 'Pendiente' %}
+                                            <td class="badge badge-danger" width="30" height="30"><img class="clickable-icon answer-icon wiggle" src="{% static 'icon/answer-icon.png' %}" width="22" height="22"></td>
+                                        {% endif %}
+                                        {% if estado.estado == 'Contestada' %}
+                                            <td class="badge badge-success" width="30" height="30"><img class="clickable-icon answer-icon wiggle" src="{% static 'icon/answer-icon.png' %}" width="22" height="22"></td>
+                                        {% endif %}
+
+                                    <!--<td class="td-icon"><img class="clickable-icon answer-icon wiggle" src="{% static 'icon/answer-icon.png' %}" alt="Responder coevaluación" width="28" height="28"></td>-->
                                 </tr>
-                                <tr class="tr-pendiente" onclick="jumpTo('responder-coeval')">
-                                    <td>Estudiante 2 (clickeable)</td>
-                                    <td class="td-icon"><a href="#responder-coeval" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="icon/answer-icon.png" alt="Responder coevaluación" width="28" height="28"></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Estudiante 3</td>
-                                    <td class="td-icon"></td>
-                                </tr>
+                            {% endfor %}
                             </tbody>
+
                         </table>
                     </div>
                 </div>
                 <!-- FIN Tabla de alumnos que no han respondido -->
             </div>
+        {% if coev.estado == 'Abierta' %}
 
             <h4 class="d-inline-block mt-1 mb-0">Responder coevaluación</h4>
             <hr/>
             <!-- Detalle de coevaluación contestada -->
+        {% for estado in estados %}
             <div id="responder-coeval" class="row">
                 <div class="col-10 offset-1">
                 <h5 class="font-italic d-inline-block">Estas respondiendo para:</h5>
-                <h4 class="font-weight-bold d-inline-block ml-1">Estudiante 2</h4>
+                <h4 class="font-weight-bold d-inline-block ml-1">{{ estado.alumno_a_evaluar.first_name}} {{ estado.alumno_a_evaluar.last_name}}</h4>
                     <form>
                         <ol>
                             <div class="criterio-coeval">
@@ -179,5 +189,10 @@
 
                 </div>
             </div>
+            <br><br><br>
+        {% endfor %}
+        {% endif %}
+        </div>
+
         </div>
 {% endblock %}
