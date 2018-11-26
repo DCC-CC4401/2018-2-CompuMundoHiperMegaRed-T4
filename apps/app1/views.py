@@ -173,13 +173,25 @@ def ficha_curso_docente(request):
         return redirect('/')
     # obtener rut desde sesión:
     rut = request.session['usuario']
-    contexto = {}
+    data = {}
     # nombre del usuario:
     user = User.objects.filter(username=rut)
     nombre = user[0].first_name
     apellido = user[0].last_name
-    contexto.update({'nombre': nombre + ' ' + apellido})
-    return render(request, 'curso-vista-docente.html', contexto)
+    data.update({'nombre': nombre + ' ' + apellido})
+
+    curso_codigo = request.POST.get('curso_codigo', False)
+    curso_seccion = request.POST.get('curso_seccion', False)
+    curso_ano = request.POST.get('curso_ano', False)
+    curso_semestre = request.POST.get('curso_semestre', False)
+
+    curso = Curso.objects.get(codigo=curso_codigo, seccion=curso_seccion, año=curso_ano, semestre=curso_semestre)
+    data.update({'curso': curso})
+
+    coevaluaciones = Coevaluacion.objects.filter(curso=curso).order_by('-fecha_inicio')
+    data.update({'coevs': coevaluaciones})
+
+    return render(request, 'curso-vista-docente.html', data)
 
 
 def ficha_curso_alumno(request):
@@ -189,10 +201,22 @@ def ficha_curso_alumno(request):
         return redirect('/')
     # obtener rut desde sesión:
     rut = request.session['usuario']
-    contexto = {}
+    data = {}
     # nombre del usuario:
     user = User.objects.filter(username=rut)
     nombre = user[0].first_name
     apellido = user[0].last_name
-    contexto.update({'nombre': nombre + ' ' + apellido})
-    return render(request, 'curso-vista-alumno.html', contexto)
+    data.update({'nombre': nombre + ' ' + apellido})
+
+    curso_codigo = request.POST.get('curso_codigo', False)
+    curso_seccion = request.POST.get('curso_seccion', False)
+    curso_ano = request.POST.get('curso_ano', False)
+    curso_semestre = request.POST.get('curso_semestre', False)
+
+    curso = Curso.objects.get(codigo=curso_codigo, seccion=curso_seccion, año=curso_ano, semestre=curso_semestre)
+    data.update({'curso': curso})
+
+    coevaluaciones = Coevaluacion.objects.filter(curso=curso).order_by('-fecha_inicio')
+    data.update({'coevs': coevaluaciones})
+
+    return render(request, 'curso-vista-alumno.html', data)
