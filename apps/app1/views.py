@@ -155,18 +155,13 @@ def ficha_coevaluacion_alumno(request):
     coevaluacion = Coevaluacion.objects.get(curso=curso, nombre=coev_nombre)
     data.update({'coev': coevaluacion})
 
-    grupo = Asignacion.objects.get(integrante=user[0], curso=curso)
-    integrantes = Asignacion.objects.filter(grupo=grupo.grupo)
-    integrantes.exclude(integrante=user)
-    data.update({'grupo': integrantes})
-
     estados = Contestada.objects.filter(coevaluacion=coevaluacion, alumno_evaluador=user[0])
     data.update({'estados': estados})
 
     return render(request, 'coevaluacion-vista-alumno.html', data)
 
 
-def ficha_curso_docente(request):
+def ficha_curso(request):
     # copiar siguientes 3 lineas en las otras vistas:
     global log
     if not log:
@@ -191,32 +186,25 @@ def ficha_curso_docente(request):
     coevaluaciones = Coevaluacion.objects.filter(curso=curso).order_by('-fecha_inicio')
     data.update({'coevs': coevaluaciones})
 
-    return render(request, 'curso-vista-docente.html', data)
+    grupos = Grupo.objects.filter(curso=curso)
 
+    lista_grupos = []
+    for grupo in grupos:
+        nombre = grupo.nombre
+        integrantes = Asignacion.objects.filter(grupo=grupo)
+        lista1 = []
+        for integrante in integrantes:
+            alumno = integrante.integrante
+            notas = Notas.objects.filter(alumno=integrante.integrante)
+            lista1.append(alumno)
+            lista1.append(notas)
+        lista_grupos.append(nombre)
+        lista_grupos.append(lista1)
 
-def ficha_curso_alumno(request):
-    # copiar siguientes 3 lineas en las otras vistas:
-    global log
-    if not log:
-        return redirect('/')
-    # obtener rut desde sesión:
-    rut = request.session['usuario']
-    data = {}
-    # nombre del usuario:
-    user = User.objects.filter(username=rut)
-    nombre = user[0].first_name
-    apellido = user[0].last_name
-    data.update({'nombre': nombre + ' ' + apellido})
-
-    curso_codigo = request.POST.get('curso_codigo', False)
-    curso_seccion = request.POST.get('curso_seccion', False)
-    curso_ano = request.POST.get('curso_ano', False)
-    curso_semestre = request.POST.get('curso_semestre', False)
-
-    curso = Curso.objects.get(codigo=curso_codigo, seccion=curso_seccion, año=curso_ano, semestre=curso_semestre)
-    data.update({'curso': curso})
-
-    coevaluaciones = Coevaluacion.objects.filter(curso=curso).order_by('-fecha_inicio')
-    data.update({'coevs': coevaluaciones})
-
-    return render(request, 'curso-vista-alumno.html', data)
+    data.update({'grupo': lista_grupos})
+    print(lista_grupos)
+    rol = ParticipacionEnCurso(persona=user[0], curso=curso)
+    if rol.rol != "alumno":
+        return render(request, 'curso-vista-alumno.html', data)
+    else:
+        return render(request, 'curso-vista-docente.html', data)

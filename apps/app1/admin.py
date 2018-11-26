@@ -12,7 +12,7 @@ class ParticipacionEnCursoAdmin(admin.ModelAdmin):
 
 
 class AsignacionAdmin(admin.ModelAdmin):
-    list_display = ('grupo', 'integrante', 'curso')
+    list_display = ('grupo', 'integrante')
 
 
 class CoevaluacionAdmin(admin.ModelAdmin):
@@ -22,10 +22,13 @@ class CoevaluacionAdmin(admin.ModelAdmin):
 class ContestadaAdmin(admin.ModelAdmin):
     list_display = ('coevaluacion', 'alumno_evaluador', 'alumno_a_evaluar', 'estado')
 
+class GrupoAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'curso')
+
 
 admin.site.register(Curso, CursoAdmin)
 admin.site.register(ParticipacionEnCurso, ParticipacionEnCursoAdmin)
-admin.site.register(Grupo)
+admin.site.register(Grupo, GrupoAdmin)
 admin.site.register(Asignacion, AsignacionAdmin)
 admin.site.register(Coevaluacion, CoevaluacionAdmin)
 admin.site.register(Contestada, ContestadaAdmin)

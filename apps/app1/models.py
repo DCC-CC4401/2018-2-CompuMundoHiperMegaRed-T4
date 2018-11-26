@@ -41,6 +41,7 @@ class ParticipacionEnCurso(models.Model):
 
 class Grupo(models.Model):
     nombre = models.CharField(max_length=100)
+    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
 
     def complete(self):
         complete_name = "{0}"
@@ -52,7 +53,6 @@ class Grupo(models.Model):
 
 class Asignacion(models.Model):
     integrante = models.ForeignKey(User, on_delete=models.CASCADE)
-    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
     grupo = models.ForeignKey(Grupo, on_delete=models.CASCADE)
 
     def complete(self):
@@ -80,6 +80,7 @@ class Coevaluacion(models.Model):
 
     def __str__(self):
         return self.complete()
+
 
 class Contestada(models.Model):
     coevaluacion = models.ForeignKey(Coevaluacion, on_delete=models.CASCADE)

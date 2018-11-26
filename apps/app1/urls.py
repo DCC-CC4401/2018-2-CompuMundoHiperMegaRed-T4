@@ -10,6 +10,5 @@ urlpatterns = [
     path(r'homeEquipoDocente', home_profesor),
     path(r'home', home_alumno),
     path(r'fichaCoevaluacion', ficha_coevaluacion_alumno, name='ficha_coevaluacion'),
-    path(r'administrarCurso', ficha_curso_docente),
-    path(r'fichaCurso', ficha_curso_alumno, name='ficha_curso'),
+    path(r'fichaCurso', ficha_curso, name='ficha_curso'),
 ]

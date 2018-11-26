@@ -42,7 +42,7 @@
             <h3 class="d-inline-block page-title">Ficha de Curso</h3>
             <h5 class="mb-3">
                 <div class="cargos cargos-profesor"></div>
-                CC4401-1 Ingeniería de Software 2018, Primavera
+                  {{ curso.codigo }}-{{ curso.seccion }} {{ curso.nombre }} {{ curso.año }}-{{ curso.semestre }}
             </h5>
             <hr/>
             <!-- Tablas de resumen -->
@@ -67,51 +67,26 @@
 
                             <!-- Cuerpo de tabla (Table Data) -->
                             <tbody>
-                                <tr>
+                                {% for coev in coevs %}
+                                <tr class="tr-pendiente"> <!-- Fila destacada como Pendiente -->
                                     <!-- Fecha de inicio -->
                                     <td class="td-fecha">
-                                        20:01 01/12/18
+                                        {{ coev.fecha_inicio }}
                                     </td>
                                     <!-- Título de coevaluación -->
-                                    <td>Tarea final</td>
+                                    <td>{{ coev.nombre }}</td>
                                     <!-- Fecha de término -->
                                     <td class="td-fecha">
-                                        23:59 20/12/18
+                                        {{ coev.fecha_termino }}
                                     </td>
                                     <!-- Estado -->
-                                    <td>Abierta</td>
+                                    <td>{{ coev.estado }}</td>
                                     <!-- Ícono de acción (responder) -->
-                                    <td class="td-icon"></td>
-                                </tr>
-                                <tr>
-                                    <td class="td-fecha">
-                                        12:03 11/11/18
-                                    </td>
-                                    <td>Tarea con nombre muy largo que ocupa todo el espacio</td>
-                                    <td class="td-fecha">
-                                        23:59 21/11/18
-                                    </td>
-                                    <td>Abierta</td>
-                                    <td class="td-icon"></td>
-                                </tr>
-                                <tr>
-                                    <td class="td-fecha">15:15 10/11/18</td>
-                                    <td>Tarea 2</td>
-                                    <td class="td-fecha">23:59 19/11/18</td>
-                                    <td>Cerrada</td>
                                     <td class="td-icon">
-                                        <a href="#" title="Publicar resultados"><img class="clickable-icon publish-icon wiggle" src="{% static 'icon/publish-icon.png'%}" alt="Publicar resultados" width="28" height="28"></a>
+                                        <a href="#" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="{% static 'icon/answer-icon.png'%}" alt="Responder coevaluación" width="28" height="28"></a>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td class="td-fecha">03:53 20/10/18</td>
-                                    <td>Tarea 1</td>
-                                    <td class="td-fecha">23:59 27/10/18</td>
-                                    <td>Publicada</td>
-                                    <td class="td-icon">
-                                        <a href="#" title="Exportar resultados"><img class="clickable-icon export-icon" src="{% static  'icon/export-icon.png'%}" alt="Exportar resultados" width="28" height="28"></a>
-                                    </td>
-                                </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>
@@ -148,11 +123,14 @@
             <div class="row">
                 <div class="col-6">
                     <div class="table-wrap table-responsive my-1"> <!-- "Envoltura" de la tabla -->
+                    {% for grupo in grupos %}
                         <table class="table table-coeval-curso table-striped table-hover mb-0"> <!-- Tabla -->
                             <!-- Encabezados de tabla (Table Headers) -->
+
+
                             <thead class="thead-light">
                                 <tr> <!-- Fila (Table Row) -->
-                                    <th>Nombre Equipo 1</th>
+                                    <th>{{ grupo.0 }}</th>
                                     <th class="th-estado">Tarea 1</th>
                                     <th class="th-estado">Tarea 2</th>
                                 </tr>
@@ -160,102 +138,24 @@
 
                             <!-- Cuerpo de tabla (Table Data) -->
                             <tbody>
+                            {% for integrante in grupo.1 %}
                                 <tr>
                                     <!-- Integrante1 -->
                                     <td>
-                                        Jhon Salgado
+                                        {{ integrante.0 }}
                                     </td>
                                     <!-- Nota tarea 1-->
+                                    {% for nota in integrante.1 %}
                                     <td class="td-estado">
-                                        7.0
+                                        {{ nota }}
                                     </td>
-                                    <!-- Nota tarea 2 -->
-                                    <td class="td-estado">
-                                        7.0
-                                    </td>
-
+                                    {% endfor %}
                                 </tr>
-                                <tr>
-                                    <!-- Integrante 2 -->
-                                    <td>
-                                        Matías Ramírez
-                                    </td>
-                                    <!-- Nota tarea 1-->
-                                    <td class="td-estado">
-                                        7.0
-                                    </td>
-                                    <!-- Nota tarea 2 -->
-                                    <td class="td-estado">
-                                        7.0
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <!-- Integrante 3 -->
-                                    <td>
-                                        Rodrigo Fuentes
-                                    </td>
-                                    <!-- Nota tarea 1-->
-                                    <td class="td-estado">
-                                        7.0
-                                    </td>
-                                    <!-- Nota tarea 2 -->
-                                    <td class="td-estado">
-                                        7.0
-                                    </td>
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="table-wrap table-responsive my-1"> <!-- "Envoltura" de la tabla -->
-                        <table class="table table-coeval-curso table-striped table-hover mb-0"> <!-- Tabla -->
-                            <!-- Encabezados de tabla (Table Headers) -->
-                            <thead class="thead-light">
-                                <tr> <!-- Fila (Table Row) -->
-                                    <th>Nombre Equipo 2</th>
-                                    <th class="th-estado">Tarea 1</th>
-                                    <th class="th-estado">Tarea 2</th>
-                                </tr>
-                            </thead>
-
-                            <!-- Cuerpo de tabla (Table Data) -->
-                            <tbody>
-                                <tr>
-                                    <!-- Integrante1 -->
-                                    <td>
-                                        Batman
-                                    </td>
-                                    <!-- Nota tarea 1-->
-                                    <td class="td-estado">
-                                        7.0
-                                    </td>
-                                    <!-- Nota tarea 2 -->
-                                    <td class="td-estado">
-                                        7.0
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <!-- Integrante 2 -->
-                                    <td>
-                                        Robin
-                                    </td>
-                                    <!-- Nota tarea 1-->
-                                    <td class="td-estado">
-                                        4.0
-                                    </td>
-                                    <!-- Nota tarea 2 -->
-                                    <td class="td-estado">
-                                        4.0
-                                    </td>
-
-                                </tr>
+                            {% endfor %}
 
                             </tbody>
                         </table>
+                    {% endfor %}
                     </div>
                 </div>
             </div>
