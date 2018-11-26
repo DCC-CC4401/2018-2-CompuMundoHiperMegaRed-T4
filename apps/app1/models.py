@@ -40,13 +40,24 @@ class ParticipacionEnCurso(models.Model):
 
 
 class Grupo(models.Model):
-    integrante = models.ForeignKey(User, on_delete=models.CASCADE)
-    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=100)
 
     def complete(self):
         complete_name = "{0}"
         return complete_name.format(self.nombre)
+
+    def __str__(self):
+        return self.complete()
+
+
+class Asignacion(models.Model):
+    integrante = models.ForeignKey(User, on_delete=models.CASCADE)
+    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
+    grupo = models.ForeignKey(Grupo, on_delete=models.CASCADE)
+
+    def complete(self):
+        complete_name = "{0}"
+        return complete_name.format(self.grupo)
 
     def __str__(self):
         return self.complete()
@@ -70,6 +81,19 @@ class Coevaluacion(models.Model):
     def __str__(self):
         return self.complete()
 
+class Contestada(models.Model):
+    coevaluacion = models.ForeignKey(Coevaluacion, on_delete=models.CASCADE)
+    alumno_evaluador = models.ForeignKey(User, related_name='+', on_delete=models.CASCADE)
+    alumno_a_evaluar = models.ForeignKey(User, on_delete=models.CASCADE)
+    estadoChoices = (('Pendiente', 'pendiente'), ('Contestada', 'contestada'),)
+    estado = models.CharField(max_length=14, choices=estadoChoices, default="pendiente")
+
+    def complete(self):
+        complete_name = "{0}"
+        return complete_name.format(self.coevaluacion)
+
+    def __str__(self):
+        return self.complete()
 
 
 class Pregunta(models.Model):
