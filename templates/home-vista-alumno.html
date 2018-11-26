@@ -138,12 +138,28 @@
                                         <div class="cargos cargos-alumno tooltip-custom">
                                             <span  class="tooltiptext"></span>
                                         </div>
-                                        <a href="fichaCursoAlumno">ir</a>
+                                        <a href="fichaCurso">ir</a>
                                         <span class="curso-nombre">{{ curso.nombre }}</span>
                                         <br>
                                         <span class="curso-codigo">{{ curso.codigo }}-{{ curso.seccion }}</span>
                                     </td>
-                                    <td>{{ curso.año }}-{{ curso.semestre }}</td>
+                                    <td >{{ curso.año }}-{{ curso.semestre }}</td>
+                                    <td class="td-icon">
+                                        <form action="{% url 'ficha_coevaluacion' %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="coev_nombre" value="{{ coev.nombre }}">
+                                            {% for curso in cursos %}
+                                            {% if curso.id == coev.curso.id %}
+                                                <input type="hidden" name="curso_codigo" value="{{ curso.codigo }}">
+                                                <input type="hidden" name="curso_seccion" value="{{ curso.seccion }}">
+                                                <input type="hidden" name="curso_ano" value="{{ curso.año }}">
+                                                <input type="hidden" name="curso_semestre" value="{{ curso.semestre }}">
+                                            {% endif %}
+                                            {%  endfor %}
+
+                                            <input type="image" class="clickable-icon answer-icon wiggle" href="fichaCoevaluacion" src="{% static 'icon/answer-icon.png' %}" title="Responder coevaluación" alt="Responder coevaluación" width="28" height="28">
+                                        </form>
+                                    </td>
                                     </tr>
 
                                 {% endfor %}
