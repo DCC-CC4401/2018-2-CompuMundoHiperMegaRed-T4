@@ -6,7 +6,7 @@
 {%  block topbar %}
       <!-- Barra superior -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-5 py-3">
-            <a class="navbar-brand" href="#">Sistema de Coevaluaciones DCC</a>
+            <a class="navbar-brand" href="/home">Sistema de Coevaluaciones DCC</a>
             <!-- Al achicar la pantalla, el menú se oculta y se vuelve desplegable mediante este botón. -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon">
@@ -22,11 +22,11 @@
                     </form>
                     <li class="divider-vertical"></li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Juanito Pérez</a>
+                        <a class="nav-link" href="/perfil">{{ nombre }}</a>
                     </li>
                     <li class="divider-vertical"></li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Cerrar Sesión</a>
+                        <a class="nav-link" href="/login">Cerrar Sesión</a>
                     </li>
                 </ul>
             </div>
@@ -127,134 +127,137 @@
             </div>
 			<hr/>
             <div class="row">
-            	<!-- Tabla de alumnos/as -->
-                <div class="col-md-4">
-            		<h4 class="d-inline-block mt-1">Estudiantes</h4>
-                    <button type="button" id="add-coev-btn" class="btn btn-primary-custom float-right">Agregar alumno</button>
-
-                    <div class="table-wrap table-responsive my-1">
-                        <table class="table table-alumnos-curso table-striped table-hover mb-0">
+                <div class="col-3"></div>
+                <div class="col">
+                    <form>
+                        <input class="form-control" type="search" placeholder="Buscar alumno..." aria-label="Buscar alumno">
+                    </form>
+                    <br>
+                </div>
+                <div class="col">
+                    <button type="button" id="add-coev-btn" class="btn btn-primary-custom float">Agregar alumno</button>
+                </div>
+                <div class="col-3"></div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button type="button" id="add-coev-btn" class="btn btn-primary-custom float">Agregar grupo</button>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-6">
+                    <div class="table-wrap table-responsive my-1"> <!-- "Envoltura" de la tabla -->
+                        <table class="table table-coeval-curso table-striped table-hover mb-0"> <!-- Tabla -->
+                            <!-- Encabezados de tabla (Table Headers) -->
                             <thead class="thead-light">
-                                <tr>
-                                    <th>
-                                    	<form>
-                                    		<input class="form-control" type="search" placeholder="Buscar alumno..." aria-label="Buscar alumno">
-                                    	</form>
-                    				</th>
+                                <tr> <!-- Fila (Table Row) -->
+                                    <th>Nombre Equipo 1</th>
+                                    <th class="th-estado">Tarea 1</th>
+                                    <th class="th-estado">Tarea 2</th>
                                 </tr>
                             </thead>
+
+                            <!-- Cuerpo de tabla (Table Data) -->
                             <tbody>
-                                <tr id="active-estudiante" onclick="showGestionEstudiante()"><td>Estudiante 1 (clickeable)</td></tr>
-                                <tr><td>Estudiante 2</td></tr>
-                                <tr><td>Estudiante 3</td></tr>
-                                <tr><td>Estudiante 4</td></tr>
-                                <tr><td>Estudiante 5</td></tr>
-                                <tr><td>Estudiante 6</td></tr>
-                                <tr><td>Estudiante 7</td></tr>
-                                <tr><td>Estudiante 8</td></tr>
-                                <tr><td>Estudiante 9</td></tr>
-                                <tr><td>Estudiante 10</td></tr>
-                                <tr><td>Estudiante 11</td></tr>
-                                <tr><td>Estudiante 12</td></tr>
-                                <tr><td>Estudiante 13</td></tr>
-                                <tr><td>Estudiante 14</td></tr>
-                                <tr><td>Estudiante 15</td></tr>
-                                <tr><td>Estudiante 16</td></tr>
-                                <tr><td>Estudiante 17</td></tr>
-                                <tr><td>Estudiante 18</td></tr>
-                                <tr><td>Estudiante 19</td></tr>
-                                <tr><td>Estudiante 20</td></tr>
+                                <tr>
+                                    <!-- Integrante1 -->
+                                    <td>
+                                        Jhon Salgado
+                                    </td>
+                                    <!-- Nota tarea 1-->
+                                    <td class="td-estado">
+                                        7.0
+                                    </td>
+                                    <!-- Nota tarea 2 -->
+                                    <td class="td-estado">
+                                        7.0
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <!-- Integrante 2 -->
+                                    <td>
+                                        Matías Ramírez
+                                    </td>
+                                    <!-- Nota tarea 1-->
+                                    <td class="td-estado">
+                                        7.0
+                                    </td>
+                                    <!-- Nota tarea 2 -->
+                                    <td class="td-estado">
+                                        7.0
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <!-- Integrante 3 -->
+                                    <td>
+                                        Rodrigo Fuentes
+                                    </td>
+                                    <!-- Nota tarea 1-->
+                                    <td class="td-estado">
+                                        7.0
+                                    </td>
+                                    <!-- Nota tarea 2 -->
+                                    <td class="td-estado">
+                                        7.0
+                                    </td>
+
+                                </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-
-            	<!-- Tabla de grupos -->
-                <div class="col-md-4">
-            		<h4 class="d-inline-block mt-1">Grupos</h4>
-                    <button type="button" id="add-coev-btn" class="btn btn-primary-custom float-right">Agregar grupo</button>
-
-                    <div class="table-wrap table-responsive my-1">
-                        <table class="table table-grupos-curso table-striped table-hover mb-0">
+                <div class="col-6">
+                    <div class="table-wrap table-responsive my-1"> <!-- "Envoltura" de la tabla -->
+                        <table class="table table-coeval-curso table-striped table-hover mb-0"> <!-- Tabla -->
+                            <!-- Encabezados de tabla (Table Headers) -->
                             <thead class="thead-light">
-                                <tr>
-                                    <th>
-                                    	<form>
-                                    		<input class="form-control" type="search" placeholder="Buscar grupo..." aria-label="Buscar alumno">
-                                    	</form>
-                    				</th>
+                                <tr> <!-- Fila (Table Row) -->
+                                    <th>Nombre Equipo 2</th>
+                                    <th class="th-estado">Tarea 1</th>
+                                    <th class="th-estado">Tarea 2</th>
                                 </tr>
                             </thead>
+
+                            <!-- Cuerpo de tabla (Table Data) -->
                             <tbody>
-                                <tr id="active-grupo" onclick="showGestionGrupo()"><td>1</td><td>Nombre grupo 1 (clickeable)</td></tr>
-                                <tr><td>2</td><td>Nombre grupo 2</td></tr>
-                                <tr><td>3</td><td>Nombre grupo 3</td></tr>
-                                <tr><td>4</td><td>Nombre grupo 4</td></tr>
-                                <tr><td>5</td><td>Nombre grupo 5</td></tr>
-                                <tr><td>6</td><td>Nombre grupo 6</td></tr>
-                                <tr><td>7</td><td>Nombre grupo 7</td></tr>
-                                <tr><td>8</td><td>Nombre grupo 8</td></tr>
-                                <tr><td>9</td><td>Nombre grupo 9</td></tr>
-                                <tr><td>10</td><td>Nombre grupo 10</td></tr>
+                                <tr>
+                                    <!-- Integrante1 -->
+                                    <td>
+                                        Batman
+                                    </td>
+                                    <!-- Nota tarea 1-->
+                                    <td class="td-estado">
+                                        7.0
+                                    </td>
+                                    <!-- Nota tarea 2 -->
+                                    <td class="td-estado">
+                                        7.0
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <!-- Integrante 2 -->
+                                    <td>
+                                        Robin
+                                    </td>
+                                    <!-- Nota tarea 1-->
+                                    <td class="td-estado">
+                                        4.0
+                                    </td>
+                                    <!-- Nota tarea 2 -->
+                                    <td class="td-estado">
+                                        4.0
+                                    </td>
+
+                                </tr>
+
                             </tbody>
                         </table>
                     </div>
                 </div>
-
-            	<!-- Sección de control -->
-                <div class="col-md-4">
-                    <div id="gestion-placeholder" class="mt-5">
-                        <h5 class="font-weight-normal text-center text-muted">Selecciona un estudiante o grupo para gestionar</h5>
-                    </div>
-                    <!-- Gestión de estudiante -->
-                    <div id="gestion-estudiante">
-                        <h4 class="d-inline-block mt-1">Gestionar estudiante</h4>
-                        <div class="gestionar-wrap my-1">
-                            <div class="gestionar-content">
-                                <h6 class="d-inline-block font-weight-bold">Estudiante 1</h6>
-                                <button type="button" class="btn btn-small btn-cancel float-right">Eliminar</button>
-                                <hr/>
-                                <div class="ml-2">
-	                                <h6 class="mb-1 text-muted">Grupo:</h6>
-	                                <p class="ml-2 d-inline-block">Nombre grupo 1</p>
-	                                <button type="button" class="btn btn-small btn-secondary float-right">Gestionar grupo</button>
-                                </div>
-                                <div>
-	                                <button type="button" class="btn btn-small btn-primary-custom">Cambiar grupo</button>
-	                                <button type="button" class="btn btn-small btn-primary-custom">Ver perfil</button>
-	                            </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- FIN Gestión de estudiante -->
-
-                    <!-- Gestión de grupo -->
-                    <div id="gestion-grupo">
-                		<h4 class="d-inline-block mt-1">Gestionar grupo</h4>
-                        <div class="gestionar-wrap my-1">
-                        	<div class="gestionar-content">
-                                <h6 class="d-inline-block font-weight-bold">Nombre grupo 1
-                                        <a href="#" title="Editar nombre"><img class="clickable-icon mb-1" src="{%  static 'icon/edit-icon.png' %}" alt="Editar nombre" width="13" height="13"></a>
-                                </h6>
-                                <button type="button" class="btn btn-small btn-cancel float-right">Eliminar</button>
-                                <hr/>
-                                <div class="ml-2">
-	                                <ul>
-	                                    <li>Estudiante 1
-	                                        <a href="#" title="Quitar estudiante del grupo"><img class="clickable-icon ml-1 mb-1" src="icon/x-icon.png" alt="Quitar estudiante del grupo" width="13" height="13"></a></li>
-	                                    <li>Estudiante 2
-	                                        <a href="#" title="Quitar estudiante del grupo"><img class="clickable-icon ml-1 mb-1" src="icon/x-icon.png" alt="Quitar estudiante del grupo" width="13" height="13"></a></li>
-	                                    <li>Estudiante 3
-	                                        <a href="#" title="Quitar estudiante del grupo"><img class="clickable-icon ml-1 mb-1" src="icon/x-icon.png" alt="Quitar estudiante del grupo" width="13" height="13"></a></li>
-	                                    <li><a href="#">Agregar estudiante...</a></li>
-	                                </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- FIN Gestión de grupo -->
-                </div>
-                <!-- FIN Sección de control -->
             </div>
         </div>
 {% endblock %}

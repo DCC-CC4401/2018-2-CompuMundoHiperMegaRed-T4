@@ -47,17 +47,15 @@ def logout(request):
 
 
 def home_alumno(request):
-<<<<<<< HEAD
     # copiar siguientes 3 lineas en las otras vistas:
     global log
     if not log:
         return redirect('/')
+
     # obtener rut desde sesión:
-=======
-    # obtener rut desde sesion:
->>>>>>> c99caa7cc91e3e511eb87c9c9e07a2729d385db8
     rut = request.session['usuario']
     contexto = {}
+
     # nombre del usuario:
     user = User.objects.filter(username=rut)
     nombre = user[0].first_name
@@ -101,4 +99,32 @@ def ficha_coevaluacion_alumno(request):
 
 
 def ficha_curso_docente(request):
-    return render(request, 'curso-vista-docente.html')
+    # copiar siguientes 3 lineas en las otras vistas:
+    global log
+    if not log:
+        return redirect('/')
+    # obtener rut desde sesión:
+    rut = request.session['usuario']
+    contexto = {}
+    # nombre del usuario:
+    user = User.objects.filter(username=rut)
+    nombre = user[0].first_name
+    apellido = user[0].last_name
+    contexto.update({'nombre': nombre + ' ' + apellido})
+    return render(request, 'curso-vista-docente.html', contexto)
+
+
+def ficha_curso_alumno(request):
+    # copiar siguientes 3 lineas en las otras vistas:
+    global log
+    if not log:
+        return redirect('/')
+    # obtener rut desde sesión:
+    rut = request.session['usuario']
+    contexto = {}
+    # nombre del usuario:
+    user = User.objects.filter(username=rut)
+    nombre = user[0].first_name
+    apellido = user[0].last_name
+    contexto.update({'nombre': nombre + ' ' + apellido})
+    return render(request, 'curso-vista-alumno.html', contexto)
