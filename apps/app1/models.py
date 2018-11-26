@@ -71,13 +71,15 @@ class Coevaluacion(models.Model):
     estadoChoices = (('Abierta', 'abierta'), ('Cerrada', 'cerrada'), ('Publicada', 'publicada'),)
     estado = models.CharField(max_length=9, choices=estadoChoices, default="cerrada")
 
+    class Meta:
+        unique_together = ["curso", "nombre"]
+
     def complete(self):
         complete_name = "{0} ({1})"
         return complete_name.format(self.nombre, self.curso)
 
     def __str__(self):
         return self.complete()
-
 
 class Contestada(models.Model):
     coevaluacion = models.ForeignKey(Coevaluacion, on_delete=models.CASCADE)
@@ -98,3 +100,13 @@ class Pregunta(models.Model):
     coevaluacion = models.ForeignKey(Coevaluacion, on_delete=models.CASCADE)
     contenido = models.TextField(max_length=300)
     ponderacion = models.FloatField()
+
+
+class Notas(models.Model):
+    coevaluacion = models.ForeignKey(Coevaluacion, on_delete=models.CASCADE)
+    nota = models.FloatField()
+    alumno = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ["coevaluacion", "alumno"]
+

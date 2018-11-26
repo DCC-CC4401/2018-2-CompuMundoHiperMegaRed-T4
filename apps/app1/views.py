@@ -51,11 +51,10 @@ def home_alumno(request):
     global log
     if not log:
         return redirect('/')
-
     # obtener rut desde sesión:
+
     rut = request.session['usuario']
     contexto = {}
-
     # nombre del usuario:
     user = User.objects.filter(username=rut)
     nombre = user[0].first_name
@@ -87,7 +86,48 @@ def perfil_alumno_vista_docente(request):
 
 
 def perfil_propio(request):
-    return render(request, 'perfil-vista-dueno.html')
+    rut = request.session['usuario']
+    usuario = User.objects.get(username=rut)
+    bad1 = False
+    bad2 = False
+
+    form = CambioPassword()
+    if request.method == 'POST':
+        form = CambioPassword(request.POST)
+        if form.is_valid():
+            previous = form.cleaned_data['previous']
+            actual = usuario.password
+
+            if authenticate(request, username = rut, password = previous) != None:
+                new = form.cleaned_data['new']
+                confirmation = form.cleaned_data['confirmation']
+                if new == confirmation:
+                    usuario.set_password(new)
+                    usuario.save()
+                else:
+                    bad2 = True
+
+            else:
+                bad1 = True
+
+    coevals = []
+    cursosTemp = []
+    cursos = ParticipacionEnCurso.objects.filter(persona__username=rut)
+    for curso in cursos:
+        idCurso = curso.id
+        infocursos = Curso.objects.get(id=idCurso)
+        cursosTemp.append(infocursos)
+
+        infocoev = Coevaluacion.objects.filter(curso = infocursos)
+        for c in infocoev:
+            coevals.append(c)
+
+    notas = []
+    for coeval in coevals:
+        notaInfo = Notas.objects.get(coevaluacion= coeval, alumno = usuario)
+        notas.append(notaInfo)
+
+    return render(request, 'perfil-vista-dueno.html', {'usuario': usuario , 'cursos': cursosTemp, 'coevaluaciones': coevals, 'notas': notas, 'passwordForm': form, 'bad1': bad1, 'bad2': bad2})
 
 
 def home_profesor(request):
