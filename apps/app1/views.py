@@ -95,7 +95,35 @@ def home_profesor(request):
 
 
 def ficha_coevaluacion_alumno(request):
-    return render(request, 'coevaluacion-vista-alumno.html')
+
+    data = {}
+    rut = request.session['usuario']
+    user = User.objects.filter(username=rut)
+    nombre = user[0].first_name
+    apellido = user[0].last_name
+    data.update({'nombre': nombre + ' ' + apellido})
+
+    coev_nombre = request.POST.get('coev_nombre', False)
+    curso_codigo = request.POST.get('curso_codigo', False)
+    curso_seccion = request.POST.get('curso_seccion', False)
+    curso_ano = request.POST.get('curso_ano', False)
+    curso_semestre = request.POST.get('curso_semestre', False)
+
+    curso = Curso.objects.get(codigo=curso_codigo, seccion=curso_seccion, año=curso_ano, semestre=curso_semestre)
+    data.update({'curso': curso})
+
+    coevaluacion = Coevaluacion.objects.get(curso=curso, nombre=coev_nombre)
+    data.update({'coev': coevaluacion})
+
+    grupo = Asignacion.objects.get(integrante=user[0], curso=curso)
+    integrantes = Asignacion.objects.filter(grupo=grupo.grupo)
+    integrantes.exclude(integrante=user)
+    data.update({'grupo': integrantes})
+
+    estados = Contestada.objects.filter(coevaluacion=coevaluacion, alumno_evaluador=user[0])
+    data.update({'estados': estados})
+
+    return render(request, 'coevaluacion-vista-alumno.html', data)
 
 
 def ficha_curso_docente(request):
