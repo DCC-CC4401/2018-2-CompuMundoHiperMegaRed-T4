@@ -145,19 +145,15 @@
                                     </td>
                                     <td >{{ curso.año }}-{{ curso.semestre }}</td>
                                     <td class="td-icon">
-                                        <form action="{% url 'ficha_coevaluacion' %}" method="post">
+                                        <form action="{% url 'ficha_curso' %}" method="post">
                                             {% csrf_token %}
-                                            <input type="hidden" name="coev_nombre" value="{{ coev.nombre }}">
-                                            {% for curso in cursos %}
-                                            {% if curso.id == coev.curso.id %}
                                                 <input type="hidden" name="curso_codigo" value="{{ curso.codigo }}">
                                                 <input type="hidden" name="curso_seccion" value="{{ curso.seccion }}">
                                                 <input type="hidden" name="curso_ano" value="{{ curso.año }}">
                                                 <input type="hidden" name="curso_semestre" value="{{ curso.semestre }}">
-                                            {% endif %}
-                                            {%  endfor %}
-
-                                            <input type="image" class="clickable-icon answer-icon wiggle" href="fichaCoevaluacion" src="{% static 'icon/answer-icon.png' %}" title="Responder coevaluación" alt="Responder coevaluación" width="28" height="28">
+                                            <button type="submit" class="btn btn-default" aria-label="Left Align" width="28" height="28">
+                                              <span class="glyphicon glyphicon-share-alt" aria-hidden="true" href="fichaCoevaluacion" ></span>
+                                            </button>
                                         </form>
                                     </td>
                                     </tr>
