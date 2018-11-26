@@ -7,6 +7,7 @@ from django.template.smartif import key
 from apps.app1.forms import *
 from apps.app1.models import *
 from django.contrib.auth import authenticate
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 # Create your views here.
@@ -87,6 +88,27 @@ def perfil_alumno_vista_docente(request):
 def perfil_propio(request):
     rut = request.session['usuario']
     usuario = User.objects.get(username=rut)
+    bad1 = False
+    bad2 = False
+
+    form = CambioPassword()
+    if request.method == 'POST':
+        form = CambioPassword(request.POST)
+        if form.is_valid():
+            previous = form.cleaned_data['previous']
+            actual = usuario.password
+
+            if authenticate(request, username = rut, password = previous) != None:
+                new = form.cleaned_data['new']
+                confirmation = form.cleaned_data['confirmation']
+                if new == confirmation:
+                    usuario.set_password(new)
+                    usuario.save()
+                else:
+                    bad2 = True
+
+            else:
+                bad1 = True
 
     coevals = []
     cursosTemp = []
@@ -105,7 +127,7 @@ def perfil_propio(request):
         notaInfo = Notas.objects.get(coevaluacion= coeval, alumno = usuario)
         notas.append(notaInfo)
 
-    return render(request, 'perfil-vista-dueno.html', {'usuario': usuario , 'cursos': cursosTemp, 'coevaluaciones': coevals, 'notas': notas})
+    return render(request, 'perfil-vista-dueno.html', {'usuario': usuario , 'cursos': cursosTemp, 'coevaluaciones': coevals, 'notas': notas, 'passwordForm': form, 'bad1': bad1, 'bad2': bad2})
 
 
 def home_profesor(request):

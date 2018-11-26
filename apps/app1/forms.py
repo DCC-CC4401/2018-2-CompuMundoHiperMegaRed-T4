@@ -14,3 +14,8 @@ class Login(forms.Form):
                                                                  'placeholder': 'Contraseña',
                                                                  'id': 'inputPassword'}))
 
+
+class CambioPassword(forms.Form):
+    previous = forms.CharField(label = 'Contraseña anterior ', widget=forms.PasswordInput(render_value=True))
+    new = forms.CharField(label = 'Nueva contraseña ', widget=forms.PasswordInput(render_value=True))
+    confirmation = forms.CharField(label = 'Confirme su nueva contraseña ', widget=forms.PasswordInput(render_value=True))
