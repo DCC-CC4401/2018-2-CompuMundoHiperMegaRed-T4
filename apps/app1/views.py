@@ -118,7 +118,7 @@ def perfil_propio(request):
         infocursos = Curso.objects.get(id=idCurso)
         cursosTemp.append(infocursos)
 
-        infocoev = Coevaluacion.objects.filter(curso = infocursos)
+        infocoev = Coevaluacion.objects.filter(curso = infocursos, estado='Publicada')
         for c in infocoev:
             coevals.append(c)
 
@@ -186,6 +186,9 @@ def ficha_curso(request):
     coevaluaciones = Coevaluacion.objects.filter(curso=curso).order_by('-fecha_inicio')
     data.update({'coevs': coevaluaciones})
 
+    coevaluaciones_publicadas = Coevaluacion.objects.filter(curso=curso, estado='Publicada').order_by('-fecha_inicio')
+    data.update({'coevslistas': coevaluaciones_publicadas})
+
     grupos = Grupo.objects.filter(curso=curso)
 
     lista_grupos = []
@@ -196,15 +199,14 @@ def ficha_curso(request):
         for integrante in integrantes:
             alumno = integrante.integrante
             notas = Notas.objects.filter(alumno=integrante.integrante)
-            lista1.append(alumno)
-            lista1.append(notas)
-        lista_grupos.append(nombre)
-        lista_grupos.append(lista1)
+            aux = [alumno, notas]
+            lista1.append(aux)
+        aux2 = [nombre, lista1]
+        lista_grupos.append(aux2)
 
-    data.update({'grupo': lista_grupos})
-    print(lista_grupos)
+    data.update({'grupos': lista_grupos})
     rol = ParticipacionEnCurso(persona=user[0], curso=curso)
-    if rol.rol != "alumno":
+    if rol.rol == "alumno":
         return render(request, 'curso-vista-alumno.html', data)
     else:
         return render(request, 'curso-vista-docente.html', data)

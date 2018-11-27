@@ -25,6 +25,9 @@ class ContestadaAdmin(admin.ModelAdmin):
 class GrupoAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'curso')
 
+class NotasAdmin(admin.ModelAdmin):
+    list_display = ('alumno', 'nota', 'coevaluacion')
+
 
 admin.site.register(Curso, CursoAdmin)
 admin.site.register(ParticipacionEnCurso, ParticipacionEnCursoAdmin)
@@ -33,4 +36,4 @@ admin.site.register(Asignacion, AsignacionAdmin)
 admin.site.register(Coevaluacion, CoevaluacionAdmin)
 admin.site.register(Contestada, ContestadaAdmin)
 admin.site.register(Pregunta)
-admin.site.register(Notas)
+admin.site.register(Notas, NotasAdmin)

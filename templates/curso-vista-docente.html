@@ -123,16 +123,18 @@
             <div class="row">
                 <div class="col-6">
                     <div class="table-wrap table-responsive my-1"> <!-- "Envoltura" de la tabla -->
-                    {% for grupo in grupos %}
+
                         <table class="table table-coeval-curso table-striped table-hover mb-0"> <!-- Tabla -->
                             <!-- Encabezados de tabla (Table Headers) -->
 
-
+                            {% for grupo in grupos %}
+                                {{ grupo.2}}
                             <thead class="thead-light">
                                 <tr> <!-- Fila (Table Row) -->
-                                    <th>{{ grupo.0 }}</th>
-                                    <th class="th-estado">Tarea 1</th>
-                                    <th class="th-estado">Tarea 2</th>
+                                    <th>{{ grupo.0}}</th>
+                                    {% for coev in coevslistas %}
+                                        <th class="th-estado-full">{{ coev.nombre }}</th>
+                                    {% endfor %}
                                 </tr>
                             </thead>
 
@@ -142,20 +144,21 @@
                                 <tr>
                                     <!-- Integrante1 -->
                                     <td>
-                                        {{ integrante.0 }}
+                                        {{ integrante.0.first_name }} {{ integrante.0.last_name }}
                                     </td>
                                     <!-- Nota tarea 1-->
                                     {% for nota in integrante.1 %}
                                     <td class="td-estado">
-                                        {{ nota }}
+                                        {{ nota.nota }}
                                     </td>
                                     {% endfor %}
                                 </tr>
                             {% endfor %}
 
                             </tbody>
+                        {% endfor %}
                         </table>
-                    {% endfor %}
+
                     </div>
                 </div>
             </div>

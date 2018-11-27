@@ -29,7 +29,7 @@ class ParticipacionEnCurso(models.Model):
     rol = models.CharField(max_length=10, choices=rolChoices, default="alumno")
 
     class Meta:
-        unique_together = ["persona", "curso"]
+        unique_together = ["persona", "curso", "rol"]
 
     def complete(self):
         complete_name = "{0} --> {1}"
